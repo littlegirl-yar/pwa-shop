@@ -1,0 +1,763 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel OpenApi Demo Documentation",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "admin@admin.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/api",
+            "description": "Demo API Server"
+        }
+    ],
+    "paths": {
+        "/auth/token": {
+            "post": {
+                "tags": [
+                    "UnAuthorize"
+                ],
+                "summary": "Sign in",
+                "description": "Login by email, password",
+                "operationId": "9f8fe2e5d2c3ad96805b057f792f5321",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TokenFormRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid login details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Returns a token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "1|m4p08WGD33rXJdae404Ef0OLDX5KLtwB0QWvxGUn"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "Bearer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "Authorize"
+                ],
+                "summary": "Logout",
+                "description": "Logout user and invalidate token",
+                "operationId": "7947ef42546e4a12d06235a1520c076a",
+                "responses": {
+                    "200": {
+                        "description": "Logged out"
+                    },
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "UnAuthorize"
+                ],
+                "summary": "Register",
+                "description": "Register by email, password",
+                "operationId": "f3bde6e961cf700e03cd91bf90c54a21",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterFormRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "422": {
+                        "description": "Unprocessable content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Registered successfully"
+                    }
+                }
+            }
+        },
+        "/me": {
+            "get": {
+                "tags": [
+                    "Authorize"
+                ],
+                "summary": "Get user",
+                "description": "Return user details",
+                "operationId": "de3936ad40be9d99a380e4fcfcc59871",
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/cartitems/{id}": {
+            "delete": {
+                "tags": [
+                    "Authorize"
+                ],
+                "summary": "Delete cartitem",
+                "description": "Delete cartitem by id",
+                "operationId": "c4c524dea505cd6e128d053fe4f0a02c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "cartitem Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 87
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item removed successfully from cart"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Authorize"
+                ],
+                "summary": "Get list of categories",
+                "description": "Return a list of categories",
+                "operationId": "ead5fb1cf2a7453acb2e37928a1b1eaf",
+                "responses": {
+                    "200": {
+                        "description": "Categories list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryResourceCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/posts": {
+            "get": {
+                "tags": [
+                    "Authorize"
+                ],
+                "summary": "Get list of posts",
+                "description": "Return a list of posts",
+                "operationId": "5f292ed47bdbfa79356750be0807450c",
+                "responses": {
+                    "200": {
+                        "description": "Posts list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostResourceCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/posts/{id}": {
+            "get": {
+                "tags": [
+                    "Authorize"
+                ],
+                "summary": "Get post by id",
+                "description": "Returns a post with same id",
+                "operationId": "c8bd68bc05422c879bc2dd429ae5782b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "post Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 87
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PostResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/categories/{id}/products": {
+            "get": {
+                "tags": [
+                    "Authorize"
+                ],
+                "summary": "Get products by category",
+                "description": "Return a list of products that belong to category",
+                "operationId": "b938ef418ed36bf03c6189a77c957f85",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "category Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 3
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Products list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductResourceCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/products/{id}": {
+            "get": {
+                "tags": [
+                    "Authorize"
+                ],
+                "summary": "Get product by id",
+                "description": "Returns a product with same id",
+                "operationId": "b46f4aa73232d0368eee698a082342a4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "product Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 87
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProductResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Returns when user is not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegisterFormRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "yaromir"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "yaromiradmin@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "yaromir228322"
+                    },
+                    "password_confirmation": {
+                        "type": "string",
+                        "example": "yaromir228322"
+                    }
+                },
+                "type": "object"
+            },
+            "TokenFormRequest": {
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "yaromiradmin@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "yaromir228322"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "3"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "laptops"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryResourceCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CategoryResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PostResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "3"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "title for post"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "some text goes here"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://logos-world.net/wp-content/uploads/2020/11/Fox-News-Channel-Emblem.png"
+                    }
+                },
+                "type": "object"
+            },
+            "PostResourceCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PostResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ProductResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "22"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": "3"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "coll laptop gt6"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "some text goes here"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": "1488.92"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://logos-world.net/wp-content/uploads/2020/11/Fox-News-Channel-Emblem.png"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductResourceCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "yaromiradmin@gmail.com"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "yaromir"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryResource"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "electric": {
+                                "description": "electric attr",
+                                "type": "integer",
+                                "example": 33
+                            },
+                            "for_women": {
+                                "description": "for_women attr",
+                                "type": "integer",
+                                "example": 56
+                            },
+                            "handicapped": {
+                                "description": "for_women attr",
+                                "type": "integer",
+                                "example": 52
+                            },
+                            "with_kids": {
+                                "description": "for_women attr",
+                                "type": "integer",
+                                "example": 12
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "attr": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "hello",
+                            "hello"
+                        ]
+                    },
+                    "sizes": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "medium"
+                                },
+                                "price": {
+                                    "type": "integer",
+                                    "example": "600"
+                                },
+                                "rates": {
+                                    "type": "array",
+                                    "items": {},
+                                    "example": [
+                                        {
+                                            "amount": 2000,
+                                            "hours": "12-14",
+                                            "days": [
+                                                1
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "UnAuthorize",
+            "description": "No user login required"
+        },
+        {
+            "name": "Authorize",
+            "description": "User login required"
+        }
+    ]
+}
