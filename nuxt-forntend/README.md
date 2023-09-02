@@ -1,4 +1,4 @@
-# auth
+# Nuxt JS
 
 ## Build Setup
 
