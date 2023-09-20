@@ -22,6 +22,7 @@ export default {
       { rel: 'apple-touch-icon', sizes: "152x152", href: '/img/icons/icon-152x152.png' },
       { rel: 'apple-touch-icon', sizes: "167x167", href: '/img/icons/icon-167x167.png' },
       { rel: 'apple-touch-icon', sizes: "180x180", href: '/img/icons/icon-180x180.png' },
+      { rel: 'stylesheet', href: '/css/bootstrap.css'},
       { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css'},
       { rel: 'stylesheet', href: '/css/tiny-slider.css'},
       { rel: 'stylesheet', href: '/css/baguetteBox.min.css'},
